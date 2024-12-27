@@ -92,4 +92,5 @@ extension Queue {
             try await $0.dispatched(job: .init(id: id.string, queueName: self.queueName.string, jobData: storage), eventLoop: self.eventLoop).get()
         }
     }
+    
 }

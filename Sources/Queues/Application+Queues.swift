@@ -97,7 +97,7 @@ extension Application {
         public let application: Application
 
         /// Get the default ``Queue``.
-        public var queue: any Queue {
+        public var queue: any AsyncQueue {
             self.queue(.default)
         }
 
@@ -111,7 +111,7 @@ extension Application {
             _ name: QueueName,
             logger: Logger? = nil,
             on eventLoop: (any EventLoop)? = nil
-        ) -> any Queue {
+        ) -> any AsyncQueue {
             self.driver.makeQueue(with: .init(
                 queueName: name,
                 configuration: self.configuration,
