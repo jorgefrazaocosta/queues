@@ -23,7 +23,7 @@ extension Request {
     ///
     /// - Parameter queue: The queue name
     public func asyncQueues(_ queue: QueueName, logger: Logger? = nil) -> any AsyncQueue {
-        self.application.queues.queue(queue, logger: logger ?? self.logger, on: self.eventLoop)
+        self.application.queues.asyncQueue(queue, logger: logger ?? self.logger, on: self.eventLoop)
     }
     
 }

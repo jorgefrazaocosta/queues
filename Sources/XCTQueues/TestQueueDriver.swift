@@ -22,7 +22,11 @@ extension Application.Queues.Provider {
 struct TestQueuesDriver: QueuesDriver {
     init() {}
 
-    func makeQueue(with context: QueueContext) -> any AsyncQueue {
+    func makeQueue(with context: QueueContext) -> any Queue {
+        TestQueue(_context: .init(context))
+    }
+    
+    func makeAsyncQueue(with context: QueueContext) -> any AsyncQueue {
         AsyncTestQueue(_context: .init(context))
     }
 
@@ -33,7 +37,8 @@ struct TestQueuesDriver: QueuesDriver {
 
 struct AsyncTestQueuesDriver: QueuesDriver {
     init() {}
-    func makeQueue(with context: QueueContext) -> any AsyncQueue { AsyncTestQueue(_context: .init(context)) }
+    func makeQueue(with context: QueueContext) -> any Queue { TestQueue(_context: .init(context)) }
+    func makeAsyncQueue(with context: QueueContext) -> any AsyncQueue { AsyncTestQueue(_context: .init(context)) }
     func shutdown() {}
 }
 

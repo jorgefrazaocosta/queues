@@ -97,8 +97,13 @@ extension Application {
         public let application: Application
 
         /// Get the default ``Queue``.
-        public var queue: any AsyncQueue {
+        public var queue: any Queue {
             self.queue(.default)
+        }
+        
+        /// Get the default ``Queue``.
+        public var asyncQueue: any AsyncQueue {
+            self.asyncQueue(.default)
         }
 
         /// Create or look up an instance of a named ``Queue``.
@@ -111,8 +116,28 @@ extension Application {
             _ name: QueueName,
             logger: Logger? = nil,
             on eventLoop: (any EventLoop)? = nil
-        ) -> any AsyncQueue {
+        ) -> any Queue {
             self.driver.makeQueue(with: .init(
+                queueName: name,
+                configuration: self.configuration,
+                application: self.application,
+                logger: logger ?? self.application.logger,
+                on: eventLoop ?? self.application.eventLoopGroup.any()
+            ))
+        }
+        
+        /// Create or look up an instance of a named ``Queue``.
+        ///
+        /// - Parameters:
+        ///   - name: The name of the queue
+        ///   - logger: A logger object
+        ///   - eventLoop: The event loop to run on
+        public func asyncQueue(
+            _ name: QueueName,
+            logger: Logger? = nil,
+            on eventLoop: (any EventLoop)? = nil
+        ) -> any AsyncQueue {
+            self.driver.makeAsyncQueue(with: .init(
                 queueName: name,
                 configuration: self.configuration,
                 application: self.application,
